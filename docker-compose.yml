@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  dev-frontend:
+    container_name: dev-frontend
+    image: animesh0406/task_2_ui_dev
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_TABLE=http://localhost:4006/
+    stdin_open: true
+    tty: true
+
+  dev-backend:
+    container_name: dev-backend
+    image: animesh0406/task_2_server_dev
+    ports:
+      - "4006:4006"
+    environment:
+      - APP_ENV=development
+      - DATABASE_NAME=notes
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=my-secret
+      - DATABASE_HOST=dev-database
+
+  dev-database:
+    image: belwalrohit642/dev-database:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret
+    # ports:
+    #   - "3306:3306"
+    security_opt:
+    - seccomp:unconfined
