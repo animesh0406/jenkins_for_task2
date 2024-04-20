@@ -72,8 +72,8 @@ pipeline {
         stage("building the images") {
             steps {
                 script {
-                    def clientTag = "animesh0406/task_2_ui_dev:${env.BUILD_NUMBER}"
-                    def serverTag = "animesh0406/task_2_server_dev:${env.BUILD_NUMBER}"
+                    def clientTag = "animesh0406/task_2_UI_dev:${env.BUILD_NUMBER}"
+                    def serverTag = "animesh0406/task_2_SERVER_dev:${env.BUILD_NUMBER}"
 
                     sh "docker build -t ${clientTag} notes-ui"
                     sh "docker build -t ${serverTag} server"
@@ -83,8 +83,8 @@ pipeline {
         stage("pushing images on docker-hub repo") {
             steps {
                 script {
-                    def clientTag = "animesh0406/task_2_ui_dev:${env.BUILD_NUMBER}"
-                    def serverTag = "animesh0406/task_2_server_dev:${env.BUILD_NUMBER}"
+                    def clientTag = "animesh0406/task_2_UI_dev:${env.BUILD_NUMBER}"
+                    def serverTag = "animesh0406/task_2_SERVER_dev:${env.BUILD_NUMBER}"
 
                     withCredentials([usernamePassword(credentialsId: 'docker_credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
@@ -98,7 +98,7 @@ pipeline {
             steps {
                   checkout([
                         $class: 'GitSCM',
-                        branches: [[name: '*/dev']], // or specify the branch you want to checkout
+                        branches: [[name: 'main']], // or specify the branch you want to checkout
                         userRemoteConfigs: [[url: 'https://github.com/animesh0406/DevOps_of_task_2.git']]
                     ])
                 sshagent(credentials: ['remote_user_ssh']) {
